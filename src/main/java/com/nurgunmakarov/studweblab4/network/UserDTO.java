@@ -1,4 +1,4 @@
-package com.nurgunmakarov.studweblab4.pojo;
+package com.nurgunmakarov.studweblab4.network;
 
 import com.nurgunmakarov.studweblab4.model.UserRole;
 import com.nurgunmakarov.studweblab4.model.entities.Role;

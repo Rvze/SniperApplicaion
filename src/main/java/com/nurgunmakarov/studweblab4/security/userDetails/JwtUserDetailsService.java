@@ -1,6 +1,7 @@
-package com.nurgunmakarov.studweblab4.security;
+package com.nurgunmakarov.studweblab4.security.userDetails;
 
 import com.nurgunmakarov.studweblab4.model.entities.User;
+import com.nurgunmakarov.studweblab4.repository.UserRepository;
 import com.nurgunmakarov.studweblab4.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,15 +19,15 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class JwtUserDetailsService implements UserDetailsService {
 
-    private final UserService userService;
+    private final UserRepository userRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final User userEntity = userService.findByUsername(username);
+        final User userEntity = userRepository.findByUsername(username);
         if (userEntity == null) {
             throw new UsernameNotFoundException("User with username: " + username + " not found!");
         }
-        return
+        return JwtUserDetails.build(userEntity);
     }
 }

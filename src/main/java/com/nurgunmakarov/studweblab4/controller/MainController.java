@@ -33,7 +33,7 @@ public class MainController {
     @PostMapping("/register")
     public String register(@RequestParam String username,
                            @RequestParam String password,
-                           @RequestParam Integer id,
+                           @RequestParam Long id,
                            @ModelAttribute("user") User user,
                            Model model) {
         logger.info("/register");

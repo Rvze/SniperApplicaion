@@ -1,8 +1,12 @@
 package com.nurgunmakarov.studweblab4.model.entities;
 
+import com.nurgunmakarov.studweblab4.model.UserRole;
 import lombok.Getter;
 import lombok.Setter;
+
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Getter
@@ -11,11 +15,22 @@ import javax.persistence.*;
 public class User {
     @Id
     @Column(name = "id")
-    private Integer id;
+    private Long id;
     private String username;
     private String password;
 
-    public User(Integer id, String username, String password) {
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+    joinColumns = @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id"
+    ), inverseJoinColumns = @JoinColumn(
+            name = "role_id",
+            referencedColumnName = "id"
+    ))
+    private Collection <Role> roles;
+
+    public User(Long id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
