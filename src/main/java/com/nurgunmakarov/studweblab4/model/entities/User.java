@@ -29,7 +29,6 @@ public class User {
             name = "role_id",
             referencedColumnName = "id"
     ))
-    @Column(name = "roles")
     private Collection <Role> roles;
 
     public User(Long id, String username, String password) {
