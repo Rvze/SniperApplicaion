@@ -1,5 +1,6 @@
 package com.nurgunmakarov.studweblab4.service.impl;
 
+import com.nurgunmakarov.studweblab4.model.UserRole;
 import com.nurgunmakarov.studweblab4.network.UserDTO;
 import com.nurgunmakarov.studweblab4.model.entities.Role;
 import com.nurgunmakarov.studweblab4.model.entities.User;
@@ -7,6 +8,7 @@ import com.nurgunmakarov.studweblab4.repository.RoleRepository;
 import com.nurgunmakarov.studweblab4.repository.UserRepository;
 import com.nurgunmakarov.studweblab4.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
-
 
 
     @Override

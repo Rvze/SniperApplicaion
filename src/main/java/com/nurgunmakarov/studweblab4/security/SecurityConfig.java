@@ -46,13 +46,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/*").permitAll()
                 .antMatchers("/weblab4/users/**").permitAll()
                 .antMatchers("/weblab4/points/check/*").hasAnyAuthority(
-                        UserRole.USER.getAuthority()
+                        UserRole.ROLE_USER.getAuthority()
                 )
                 .antMatchers("/weblab4/points/get/*").hasAnyAuthority(
-                        UserRole.USER.getAuthority()
+                        UserRole.ROLE_USER.getAuthority()
                 )
                 .antMatchers("/weblab4/points/clear/*").hasAnyAuthority(
-                        UserRole.USER.getAuthority()
+                        UserRole.ROLE_USER.getAuthority()
                 )
                 .anyRequest().authenticated();
         http.apply(new JwtConfigurer(jwtTokenProvider));

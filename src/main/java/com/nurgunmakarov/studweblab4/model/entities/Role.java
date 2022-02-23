@@ -14,10 +14,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Role {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long roleId;
-    @Column(name = "userRole")
+    @Column(name = "user_role")
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 

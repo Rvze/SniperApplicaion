@@ -15,6 +15,7 @@ import java.util.List;
 public class User {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String username;
     private String password;
@@ -28,6 +29,7 @@ public class User {
             name = "role_id",
             referencedColumnName = "id"
     ))
+    @Column(name = "roles")
     private Collection <Role> roles;
 
     public User(Long id, String username, String password) {
