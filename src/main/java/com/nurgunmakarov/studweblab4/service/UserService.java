@@ -4,11 +4,14 @@ import com.nurgunmakarov.studweblab4.dto.UserDTO;
 import com.nurgunmakarov.studweblab4.model.entities.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     UserDTO register(UserDTO userDTO);
 
-    User findByUsername(String userName);
+    Optional<User> findByUsername(String userName);
 
     List<User> findAll();
+
+    User findById(Long id);
 }

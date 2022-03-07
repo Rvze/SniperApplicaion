@@ -1,15 +1,15 @@
 package com.nurgunmakarov.studweblab4.model.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "points")
 @Getter
@@ -38,13 +38,10 @@ public class Point {
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     private User user;
 
-    public Point(double x, double y, double r, User user) {
+    public Point(Double x, Double y, Double r) {
         this.x = x;
         this.y = y;
         this.r = r;
-        hit = isAreaHit();
-        this.user = user;
-        localDateTime = ZonedDateTime.now(ZoneOffset.UTC).plusMinutes(180).toLocalDateTime();
     }
 
     public boolean isAreaHit() {

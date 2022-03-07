@@ -1,13 +1,11 @@
 package com.nurgunmakarov.studweblab4.security.jwt;
 
-import com.nurgunmakarov.studweblab4.model.entities.Role;
 import com.nurgunmakarov.studweblab4.security.userDetails.JwtUserDetails;
 import com.nurgunmakarov.studweblab4.security.userDetails.JwtUserDetailsService;
 import io.jsonwebtoken.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.data.ConditionalOnRepositoryType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,14 +15,13 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class JwtTokenProvider {
     public static final String AUTHORIZATION = "Authorization";
 
@@ -69,8 +66,9 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION);
+        log.info(bearerToken);
         if (bearerToken != null && bearerToken.startsWith("Bearer "))
-            return bearerToken.substring(7, bearerToken.length());
+            return bearerToken.substring(7);
         return null;
     }
 

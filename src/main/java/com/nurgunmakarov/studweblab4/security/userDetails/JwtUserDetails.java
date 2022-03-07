@@ -3,7 +3,6 @@ package com.nurgunmakarov.studweblab4.security.userDetails;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nurgunmakarov.studweblab4.model.entities.User;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

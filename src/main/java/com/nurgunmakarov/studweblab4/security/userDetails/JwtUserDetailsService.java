@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -21,13 +22,12 @@ public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        final User userEntity = userRepository.findByUsername(username);
-        if (userEntity == null) {
+        final Optional<User> userEntity = userRepository.findByUsername(username);
+        if (!userEntity.isPresent()) {
             throw new UsernameNotFoundException("User with username: " + username + " not found!");
         }
-        return JwtUserDetails.build(userEntity);
+        return JwtUserDetails.build(userEntity.get());
     }
 }

@@ -8,7 +8,6 @@ import com.nurgunmakarov.studweblab4.network.request.LoginRequest;
 import com.nurgunmakarov.studweblab4.network.request.RegisterRequest;
 import com.nurgunmakarov.studweblab4.network.response.JwtTokenResponse;
 import com.nurgunmakarov.studweblab4.network.response.MessageResponse;
-import com.nurgunmakarov.studweblab4.repository.RoleRepository;
 import com.nurgunmakarov.studweblab4.security.jwt.JwtTokenProvider;
 import com.nurgunmakarov.studweblab4.security.userDetails.JwtUserDetails;
 import com.nurgunmakarov.studweblab4.service.RefreshTokenService;
@@ -40,7 +39,6 @@ import java.util.stream.Collectors;
 public class TestAuthController {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationManager authenticationManager;
-    private final RoleRepository roleRepository;
     private final UserService userService;
     private final RefreshTokenService refreshTokenService;
     private final AuthValidator authValidator;
@@ -48,13 +46,11 @@ public class TestAuthController {
     @Autowired
     public TestAuthController(JwtTokenProvider jwtTokenProvider,
                               AuthenticationManager authenticationManager,
-                              RoleRepository roleRepository,
                               UserService userService,
                               RefreshTokenService refreshTokenService,
                               AuthValidator authValidator) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.authenticationManager = authenticationManager;
-        this.roleRepository = roleRepository;
         this.userService = userService;
         this.refreshTokenService = refreshTokenService;
         this.authValidator = authValidator;
@@ -70,7 +66,7 @@ public class TestAuthController {
         Optional<String> checkReq = authValidator.check(request);
         if (checkReq.isPresent())
             return ResponseEntity.badRequest().body(new MessageResponse(checkReq.get()));
-        if (userService.findByUsername(request.getUsername()) != null)
+        if (userService.findByUsername(request.getUsername()).isPresent())
             return ResponseEntity.badRequest().body(new MessageResponse("User already exist!"));
 
         UserDTO user = new UserDTO(request.getUsername(), request.getPassword());
