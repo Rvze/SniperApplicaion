@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 public class PointDTO {
-    private long id;
+    private Long id;
     private Long userId;
     private double x;
     private double y;
@@ -38,6 +38,8 @@ public class PointDTO {
         pointDTO.setR(point.getR());
         pointDTO.setHit(point.isHit());
         pointDTO.setLocalDateTime(point.getLocalDateTime());
+        pointDTO.setUserId(point.getUser().getId());
+        pointDTO.setId(point.getId());
         return pointDTO;
 
     }

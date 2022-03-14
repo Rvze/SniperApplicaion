@@ -1,16 +1,11 @@
 package com.nurgunmakarov.studweblab4.controller;
 
-import lombok.Getter;
 import org.springframework.stereotype.Controller;
-
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping()
-@Getter
-public class MainController {
-
-    @RequestMapping(value = "/")
+public class HomeController {
+    @RequestMapping("")
     public String index() {
         return "index";
     }

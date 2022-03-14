@@ -16,7 +16,8 @@ import java.time.LocalDateTime;
 @Setter
 public class Point {
     @Id
-    @GeneratedValue
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "x")
@@ -48,5 +49,9 @@ public class Point {
         return (x >= 0 && y <= 0 && y >= x - r / 2) ||
                 (x <= 0 && y >= 0 && x * x + y * y <= r / 2 * r / 2) ||
                 (x >= 0 && y >= 0 && y <= r && x <= r);
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return LocalDateTime.now();
     }
 }

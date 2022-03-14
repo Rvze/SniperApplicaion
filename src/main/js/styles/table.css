@@ -1,0 +1,19 @@
+table {
+    margin-left: 5%;
+    margin-right: 5%;
+
+    table-layout: fixed;
+    width: 100%;
+    /*border: 5px outset ;*/
+    overflow:hidden;
+    border-radius: 2vw;
+    /*border: 7px outset rgba(0, 0, 255, 0.68);*/
+
+    border-collapse: collapse;
+}
+
+.Table {
+    margin-top: 5%;
+    display: flex;
+    margin-bottom: 5%;
+}

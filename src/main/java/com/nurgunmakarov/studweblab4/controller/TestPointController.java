@@ -9,6 +9,7 @@ import com.nurgunmakarov.studweblab4.security.userDetails.JwtUserDetails;
 import com.nurgunmakarov.studweblab4.service.PointService;
 import com.nurgunmakarov.studweblab4.service.UserService;
 import com.nurgunmakarov.studweblab4.validation.PointValidator;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/weblab4/points")
 @CrossOrigin
+@Slf4j
 public class TestPointController {
     private final PointService pointService;
     private final PointValidator pointValidator;
@@ -36,6 +38,7 @@ public class TestPointController {
     @PostMapping("/check")
     public ResponseEntity<?> check(@RequestBody PointRequest pointRequest) {
         Point point = new Point(pointRequest.getX(), pointRequest.getY(), pointRequest.getR());
+        log.warn(String.valueOf(point.getId()));
         try {
             Long userId = ((JwtUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
             User user = userService.findById(userId);
