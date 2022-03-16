@@ -2,17 +2,31 @@ import React, {useEffect, useRef} from "react";
 import store from "../store/store";
 import Point from "../subsidiary/point";
 import {check} from "../api/request"
+import MainForm from "./MainForm";
 
 const radiusSVG = 80;
-export const Graph = () => {
-    const svg = useRef();
-    const r = 1;
 
-    const drawPoint = (pX, pY, radius, hit) => {
+const svg = useRef();
+
+
+let r = store.getState().r
+if (r == null)
+    r = 1
+class Graph {
+
+
+    drawPoint = (pX, pY, radius, hit) => {
         const svgX = pX * radiusSVG / (radius * r);
         const svgY = -pY * radiusSVG / (radius * r);
         let pointSVG = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        const color = hit ? "green" : "red"
+
+        let color = isHit(store.getState().x, store.getState().y);
+        console.log(store.getState().points)
+        if (hit === true) {
+            color = "green"
+        } else
+            color = "red"
+
         pointSVG.setAttribute("cx", svgX);
         pointSVG.setAttribute("cy", svgY);
         pointSVG.setAttribute("fill", color);
@@ -26,6 +40,7 @@ export const Graph = () => {
     }
 
     const handleOnClick = (e) => {
+        console.log(r)
         e.preventDefault();
         let pnt = svg.current.createSVGPoint();
         pnt.x = e.clientX;
@@ -46,15 +61,20 @@ export const Graph = () => {
                 store.dispatch({type: "appendCheck", value: json});
             }
         }))
-        point.hit = store.getState().points.pop().hit;
-        drawPoint(point.coordinateX, point.coordinateY, point.radius, point.hit)
-        console.log(point.hit)
+        drawPoint(point.coordinateX, point.coordinateY, point.radius, store.getState().points.pop().hit)
+        new MainForm(point.coordinateX, point.coordinateY, point.radius).componentDidMount();
+    }
+
+    function isHit(x, y, rad) {
+        return (x >= 0 && y <= 0 && y >= x - rad / 2) ||
+            (x <= 0 && y >= 0 && x * x + y * y <= rad / 2 * rad / 2) ||
+            (x >= 0 && y >= 0 && y <= rad && x <= rad);
     }
 
     return (
         <div className="graph">
             <svg ref={svg} onClick={handleOnClick} className="graph__svg" viewBox="-100 -100 200 200"
-                 xmlns="http://www.w3.org/2000/svg">
+                 xmlns="http://www.w3.org/2000/svg" id="svg-area">
                 <defs>
                     <marker id='arrow-head' orient="auto"
                             markerWidth='2' markerHeight='4'
