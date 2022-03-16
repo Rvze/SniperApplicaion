@@ -5,17 +5,15 @@ import {check} from "../api/request"
 import MainForm from "./MainForm";
 
 const radiusSVG = 80;
-
-const svg = useRef();
-
-
-let r = store.getState().r
-if (r == null)
-    r = 1
-class Graph {
+export const Graph = () => {
+    const svg = useRef();
 
 
-    drawPoint = (pX, pY, radius, hit) => {
+    let r = store.getState().r
+    if (r == null)
+        r = 1
+
+    const drawPoint = (pX, pY, radius, hit) => {
         const svgX = pX * radiusSVG / (radius * r);
         const svgY = -pY * radiusSVG / (radius * r);
         let pointSVG = document.createElementNS("http://www.w3.org/2000/svg", "circle");
