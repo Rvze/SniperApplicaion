@@ -1,25 +1,50 @@
 import React, {useEffect, useRef} from "react";
-import store from "../store/store";
-import Point from "../subsidiary/point";
-import {check} from "../api/request"
-import MainForm from "./MainForm";
+import Point from "../../subsidiary/point";
+import {check} from "../../api/request"
+import $ from "jquery";
+import store from "../../store/store";
+import "./Graph.css"
 
 const radiusSVG = 80;
-export const Graph = () => {
+let color;
+
+const Graph = () => {
     const svg = useRef();
-
-
     let r = store.getState().r
     if (r == null)
         r = 1
+    const delay = 1;
 
-    const drawPoint = (pX, pY, radius, hit) => {
+    useEffect(() => {
+        let timer = setTimeout(() => getDotFromTable(), delay * 100)
+        return () => {
+            clearTimeout(timer)
+        }
+    })
+
+    const getDotFromTable = () => {
+        console.log(r)
+        $("tbody tr").each(function () {
+            $("#pointId").remove();
+        })
+        $("tbody tr").each(function () {
+            const point = $(this);
+
+            const x = parseFloat(point.find("td:first-child").text());
+            const y = parseFloat(point.find("td:nth-child(2)").text());
+            const rVal = parseFloat(point.find("td:nth-child(3)").text());
+            let res = point.find("td:nth-child(4)").text();
+            let result = (res === "true");
+
+            drawPoint(x, y, rVal, result)
+        })
+    }
+
+    function drawPoint(pX, pY, radius, hit) {
         const svgX = pX * radiusSVG / (radius * r);
         const svgY = -pY * radiusSVG / (radius * r);
         let pointSVG = document.createElementNS("http://www.w3.org/2000/svg", "circle");
 
-        let color = isHit(store.getState().x, store.getState().y);
-        console.log(store.getState().points)
         if (hit === true) {
             color = "green"
         } else
@@ -29,6 +54,7 @@ export const Graph = () => {
         pointSVG.setAttribute("cy", svgY);
         pointSVG.setAttribute("fill", color);
         pointSVG.setAttribute("drawRadius", radius);
+        pointSVG.setAttribute("id", "pointId")
 
         pointSVG.setAttribute("class", "svg_point");
         pointSVG.setAttribute("r", 1);
@@ -38,7 +64,6 @@ export const Graph = () => {
     }
 
     const handleOnClick = (e) => {
-        console.log(r)
         e.preventDefault();
         let pnt = svg.current.createSVGPoint();
         pnt.x = e.clientX;
@@ -49,6 +74,7 @@ export const Graph = () => {
         point.coordinateX = svgPnt.x / radiusSVG * (r * r);
         point.coordinateY = -svgPnt.y / radiusSVG * (r * r);
         point.radius = r;
+        point.hit = isHit(point.coordinateX, point.coordinateY, point.radius)
         check({
             x: point.coordinateX.toFixed(3),
             y: point.coordinateY.toFixed(3),
@@ -57,22 +83,27 @@ export const Graph = () => {
         }).then(response => response.json().then(json => {
             if (response.ok) {
                 store.dispatch({type: "appendCheck", value: json});
+                drawPoint(point.coordinateX, point.coordinateY, point.radius, point.hit)
+            } else if (response.status === 400) {
+                store.dispatch({type: 'snackbar', value: {active: true, label: json.message()}});
+                console.log("ALERT")
             }
         }))
-        drawPoint(point.coordinateX, point.coordinateY, point.radius, store.getState().points.pop().hit)
-        new MainForm(point.coordinateX, point.coordinateY, point.radius).componentDidMount();
     }
 
     function isHit(x, y, rad) {
-        return (x >= 0 && y <= 0 && y >= x - rad / 2) ||
+        return (x >= 0 && y <= 0 && y >= x - rad) ||
             (x <= 0 && y >= 0 && x * x + y * y <= rad / 2 * rad / 2) ||
             (x >= 0 && y >= 0 && y <= rad && x <= rad);
     }
 
+
     return (
+
         <div className="graph">
-            <svg ref={svg} onClick={handleOnClick} className="graph__svg" viewBox="-100 -100 200 200"
-                 xmlns="http://www.w3.org/2000/svg" id="svg-area">
+            <svg ref={svg} className="graph_svg" onClick={handleOnClick} viewBox="-100 -100 200 200"
+                 xmlns="http://www.w3.org/2000/svg" id="svg-area" height="550"
+                 style={{margin: "0 auto", borderRadius: "30%", backgroundColor: "#efefef", textAlign: "center", display:"block"}}>
                 <defs>
                     <marker id='arrow-head' orient="auto"
                             markerWidth='2' markerHeight='4'
@@ -86,7 +117,8 @@ export const Graph = () => {
                          fillOpacity="0.5"/>
 
                 {/*Rectangle*/}
-                <rect x="0" y={-radiusSVG / r} width={radiusSVG / r} height={radiusSVG / r} fill="rgb(128, 0, 255)"
+                <rect x="0" y={-radiusSVG / r} width={radiusSVG / r} height={radiusSVG / r}
+                      fill="rgb(128, 0, 255)"
                       fillOpacity="0.5"/>
 
                 {/*Circle*/}
@@ -135,7 +167,10 @@ export const Graph = () => {
                 <circle cx="0" cy={-80 / r} r="1.5" fill="black"/>
 
             </svg>
+
         </div>
     )
 
 }
+
+export default Graph;

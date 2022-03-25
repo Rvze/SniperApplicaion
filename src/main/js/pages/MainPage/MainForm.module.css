@@ -1,0 +1,58 @@
+.pointForm {
+
+}
+
+Dropdown {
+    color: red;
+}
+
+.x-label {
+    color: red;
+}
+
+div input {
+    color: red;
+}
+
+@media screen and (max-width: 600px) {
+    .pointForm {
+        width: 100px;
+    }
+
+
+}
+
+@media screen and (max-width: 900px) {
+    .form {
+        float: left;
+    }
+
+}
+
+@media screen and (max-width: 500px) {
+    .xForm {
+        width: 400px;
+    }
+
+    .yForm {
+        width: 400px;
+    }
+
+    .rForm {
+        width: 400px;
+    }
+
+}
+@media screen and (max-width: 300px) {
+    .xForm {
+        width: 240px;
+    }
+
+    .yForm {
+        width: 240px;
+    }
+
+    .rForm {
+        width: 240px;
+    }
+}

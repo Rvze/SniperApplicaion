@@ -1,0 +1,15 @@
+@media screen and (max-width: 1000px) {
+    svg {
+        float: left;
+        width: 500px;
+        height: 500px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    svg {
+        float: left;
+        width: 300px;
+        height: 300px;
+    }
+}

@@ -3,32 +3,39 @@ import {createStore} from "redux";
 const initialState = {
     login: sessionStorage.getItem("login"),
     points: [],
-    r: null,
+    r: 1,
+    snackbar: {
+        active: false,
+        label: ""
+    }
 };
 
 function reducer(state, action) {
     switch (action.type) {
         case "login":
-            sessionStorage.setItem("login", action.value.login)
-            return {
-                ...state,
-                r: action.value.login === null ? null : state.r,
-                login: action.value.login,
-                points: []
-            };
+            sessionStorage.setItem("login", action.value)
+            state.login = action.value
+            state.points = null
+            return state;
         case "appendCheck":
-            return {...state, points: [...state.points, action.value]};
+            state.points.push(action.value)
+            return state;
         case "changeRadius":
-            return {...state, r: action.value}
+            sessionStorage.setItem("radius", action.value)
+            state.r = action.value
+            return state
         case "setChecks":
             sessionStorage.setItem("points", action.value);
             console.log(action.value)
             return {...state, points: action.value}
+        case "logOut":
+            return {...state, login: null}
+        case "snackbar":
+            return {...state, snackbar: {active: action.value.active, label: action.value.label}}
         default:
             return state;
     }
 }
 
 const store = createStore(reducer, initialState);
-const radiusStore = createStore(reducer, "changeRadius")
 export default store;

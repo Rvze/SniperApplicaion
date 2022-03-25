@@ -1,6 +1,6 @@
 import React from "react";
 import LoginForm from "./LoginForm";
-import Header from "./Header";
+import AppHeader from "../../components/Header/AppHeader";
 
 class LoginPage extends React.Component {
     constructor(props) {
@@ -10,10 +10,11 @@ class LoginPage extends React.Component {
     render() {
         return (
             <div className="login-page">
-                <Header/>
+                <AppHeader />
                 <LoginForm/>
             </div>
         );
+
     }
 }
 

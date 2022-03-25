@@ -46,7 +46,7 @@ public class Point {
     }
 
     public boolean isAreaHit() {
-        return (x >= 0 && y <= 0 && y >= x - r / 2) ||
+        return (x >= 0 && y <= 0 && y >= x - r ) ||
                 (x <= 0 && y >= 0 && x * x + y * y <= r / 2 * r / 2) ||
                 (x >= 0 && y >= 0 && y <= r && x <= r);
     }

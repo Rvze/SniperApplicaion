@@ -1,11 +1,9 @@
 import React from "react";
 import MainForm from "./MainForm";
-import Header from "./Header";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import {Svg} from "../graph/graph";
-import {Graph} from "./Graph"
+import AppHeader from "../../components/Header/AppHeader";
 
 class MainPage extends React.Component {
 
@@ -17,14 +15,12 @@ class MainPage extends React.Component {
     render() {
         return (
             <Container>
-                <Header/>
+                <AppHeader/>
                 <Row>
-                    <Col>
-                        <Graph/>
-                    </Col>
                     <Col>
                         <MainForm/>
                     </Col>
+
                 </Row>
             </Container>
         )
